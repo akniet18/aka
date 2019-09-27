@@ -15,9 +15,9 @@
 				</div>
 			</div>
 			<div class="artInfo">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" plain>5</el-button></div>
+				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
+				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" type="primary" size="mini" plain><span>10</span></el-button></div>
+				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
 			</div>
 		</article>
 		<article>
@@ -35,12 +35,11 @@
 				</div>
 			</div>
 			<div class="artInfo">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" plain>5</el-button></div>
+				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
+				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" type="primary" size="mini" plain><span>10</span></el-button></div>
+				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
 			</div>
 		</article>
-
 	</div>
 </template>
 
@@ -101,9 +100,17 @@ export default {
 	}
 	.ic{
 		font-size: 1.1em;
-		padding: 10px;
+
 	}
 	.commentI{
 		color: #65a3be
+	}
+	@media (max-width: 480px){
+		.content{
+			display: none;
+		}
+		.article{
+			padding: 20px 15px;
+		}
 	}
 </style>

@@ -45,4 +45,15 @@ export default {
 	.non{
 		display: none;
 	}
+	@media (max-width: 760px){
+		article{
+			display: flex;
+			flex-direction: column;
+		}
+	}
+	@media (max-width: 480px){
+		article{
+			width: 100%;
+		}
+	}
 </style>

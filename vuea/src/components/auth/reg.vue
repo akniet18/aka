@@ -5,25 +5,55 @@
 				<h1 class="title">Регистрация</h1>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.email.$invalid}" for="email">E-mail</label>
-					<input :class="{errorI:$v.ch_form.email.$invalid}" type="email" id="email" v-model="ch_form.email">
+          <el-input
+						:class="{errorI:$v.ch_form.email.$invalid}"
+						id="email"
+						v-model="ch_form.email"
+						@blur="$v.ch_form.email.$touch()"
+						clearable
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.email.required">email is required</div>
 					<div class="errorM" v-if="!$v.ch_form.email.email">not email</div>
 				</div>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.username.$invalid}" for="username">Никнейм</label>
-					<input :class="{errorI:$v.ch_form.username.$invalid}" type="text" id="username" v-model="ch_form.username">
+          <el-input
+						:class="{errorI:$v.ch_form.username.$invalid}"
+						id="username"
+						v-model="ch_form.username"
+						@blur="$v.ch_form.username.$touch()"
+						clearable
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.username.required">username is required</div>
 					<div class="errorM" v-if="!$v.ch_form.username.minLength">username minlegth 4</div>
 				</div>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.password.$invalid}" for="password">Пароль</label>
-					<input :class="{errorI:$v.ch_form.password.$invalid}" type="password" id="password" v-model="ch_form.password">
+          <el-input
+						:class="{errorI:$v.ch_form.password.$invalid}"
+						id="password"
+						v-model="ch_form.password"
+						@blur="$v.ch_form.password.$touch()"
+						clearable
+            show-password
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.password.required">password is required</div>
 					<div class="errorM" v-if="!$v.ch_form.password.minLength">password minlegth 6</div>
 				</div>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.password2.$invalid}" for="password2">Пароль ещё раз</label>
-					<input :class="{errorI:$v.ch_form.password2.$invalid}" type="password" id="password2" v-model="ch_form.password2">
+          <el-input
+						:class="{errorI:$v.ch_form.password2.$invalid}"
+						id="password2"
+						v-model="ch_form.password2"
+						@blur="$v.ch_form.password2.$touch()"
+						clearable
+            show-password
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.password2.required">password is required</div>
 					<div class="errorM" v-if="!$v.ch_form.password2.sameAsPassword">passwords don`t match</div>
 				</div>

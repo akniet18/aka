@@ -3,6 +3,11 @@
 		<div class="wave"></div>
 		<header ref="head">
 			<div class="header">
+				<div class="l_col">
+					<i class="el-icon-s-unfold sicon"></i>
+					<i class="el-icon-s-fold sicon showM"></i>
+				</div>
+
 				<div class="title" @scroll="onSCroll">
 					<router-link tag="div" class="logo" :to="{name: 'home'}"><span ref="title">AKA</span></router-link>
 					<div class="divH" ref="divH">
@@ -41,12 +46,12 @@ export default {
     onSCroll () {
        if (window.scrollY > 10){
           this.$refs.divH.classList.add('flex');
-          this.$refs.title.style.fontSize = "2em";
+          this.$refs.title.classList.add('logoLFs');
           this.$refs.head.classList.add("fix");
        }
        else{
           this.$refs.divH.classList.remove('flex');
-          this.$refs.title.style.fontSize = "4em";
+          this.$refs.title.classList.remove('logoLFs');
           this.$refs.head.classList.remove("fix");
        }
     }
@@ -65,8 +70,14 @@ export default {
 		font-size: 1.2em;
 		padding: 10px;
 	}
+	.sicon{
+		font-size: 2em
+	}
 	.log{
 		margin-left: 10px
+	}
+	.l_col{
+		display: none;
 	}
 	header{
 		font-family:"Comic Sans MS", cursive, sans-serif;
@@ -101,6 +112,9 @@ export default {
 	.logo span{
 		font-size: 4em;
 		transition: .5s
+	}
+	.logoLFs{
+		font-size: 2em!important
 	}
 	.searchD{
 		position: relative;
@@ -142,5 +156,34 @@ export default {
 		top: 0;
 		padding: 5px 10px;
 		border-bottom: 1px solid silver;
+	}
+	.showM{
+		display: none;
+	}
+	@media (max-width: 760px){
+		.dotter{
+			margin-top: 20%;
+		}
+	}
+	@media (max-width: 480px){
+		.dotter{
+			margin-top: 35%;
+			border: none
+		}
+		.divH{
+			display: none;
+		}
+		.header{
+			width: 98%
+		}
+		.searchI{
+			display: none
+		}
+		.logo span{
+			font-size: 3em
+		}
+		.l_col{
+			display: block;
+		}
 	}
 </style>

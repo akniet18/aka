@@ -11,9 +11,9 @@
 				<div class="tag">it, python, js</div>
 			</div>
 			<div class="info">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" plain>5</el-button></div>
+				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
+				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" size="mini" type="primary" plain><span>10</span></el-button></div>
+				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
 			</div>
 		</div>
 		<div class="comD">
@@ -105,6 +105,13 @@ export default {
 	}
 	.ic{
 		font-size: 1.1em;
-		padding: 10px;
+	}
+	@media (max-width: 480px){
+		.art{
+			padding: 20px 15px;
+		}
+		.comD{
+			padding: 20px 15px;
+		}
 	}
 </style>

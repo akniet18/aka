@@ -5,13 +5,28 @@
 				<h1 class="title">Вход</h1>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.username.$invalid}" for="username">E-mail</label>
-					<input :class="{errorI:$v.ch_form.username.$invalid}" type="text" id="username" v-model="ch_form.username" @blur="$v.ch_form.username.$touch()">
+					<el-input
+						:class="{errorI:$v.ch_form.username.$invalid}"
+						id="username"
+						v-model="ch_form.username"
+						@blur="$v.ch_form.username.$touch()"
+						clearable
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.username.required">username is required</div>
 					<div class="errorM" v-if="!$v.ch_form.username.minLength">username minlegth 4</div>
 				</div>
 				<div class="inpDiv">
 					<label :class="{errorL:$v.ch_form.password.$invalid}" for="password">Пароль</label>
-					<input :class="{errorI:$v.ch_form.password.$invalid}" type="password" id="password" v-model="ch_form.password" @blur="$v.ch_form.password.$touch()">
+					<el-input
+						:class="{errorI:$v.ch_form.password.$invalid}"
+						id="password"
+						v-model="ch_form.password"
+						@blur="$v.ch_form.password.$touch()"
+						clearable
+						show-password
+						>
+					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.password.required">password is required</div>
 					<div class="errorM" v-if="!$v.ch_form.password.minLength">passowrd minlength 6</div>
 				</div>
@@ -125,18 +140,16 @@ export default {
 		justify-content: center;
 	}
 	.inpDiv input{
-		padding: 10px;
-		margin-top: 5px;
 		border: 1px solid silver;
 		outline: none;
 	}
 	.regf{
 		font-size: 1.03em
 	}
-	.errorI, .errorM, .errorL{
+	.errorI input, .errorM, .errorL{
 		color: #F56C6C
 	}
-	.errorI{
+	.errorI input{
 		border-color: #F56C6C!important;
 		animation: animate 0.2s linear 2;
 	}
