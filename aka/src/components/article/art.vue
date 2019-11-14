@@ -153,7 +153,7 @@ export default {
 		font-size: 1.1em;
 	}
 	.wd{
-		width: 98%;
+		width: 96%;
 		margin: 10px auto;
 	}
 	.center_div {
@@ -175,8 +175,26 @@ export default {
 		.art{
 			padding: 20px 15px;
 		}
+		.title{
+			font-size: 1.2em
+		}
+		.info{
+			font-size: 0.9em
+		}
 		.comD{
-			padding: 20px 15px;
+			padding: 15px 10px;
+		}
+		.comD_title{
+			font-size: 1.3em
+		}
+		.commentD{
+			padding: 7px;
+		}
+		.wd{
+			width: 98%;
+		}
+		.center_div{
+			text-align: center;
 		}
 	}
 </style>

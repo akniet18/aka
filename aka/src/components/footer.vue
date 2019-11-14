@@ -75,4 +75,15 @@ export default {
 .footer div div{
   padding: 10px;
 }
+@media (max-width: 760px){
+  
+}
+@media (max-width: 480px){
+  .footer{
+    width: 95%;
+  }
+  .footer div div{
+    font-size: 0.9em
+  }
+}
 </style>

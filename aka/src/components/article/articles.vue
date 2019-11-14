@@ -67,10 +67,13 @@
  			<div v-if="showPagination"></div>
 			<el-pagination
 			  v-else
+			  :page-size="15"
+			  :small="smallPag"
+			  :pager-count="7"
 			  @current-change="handleCurrentChange"
 			  background
 			  layout="prev, pager, next"
-			  :total="1000">
+			  :total="100">
 			</el-pagination>
 
 		</div>
@@ -86,8 +89,43 @@ export default {
   data() {
     return {
       islike: false,
-      showPagination: false
+      showPagination: false,
+      smallPag: false,
+      // pgCount: 6,
+      windowWidth: window.innerWidth
     };
+  },
+ //  computed: {
+ //  	windowWidth() {
+	//     return this.$store.state.windowWidth;
+	// }
+ //  },
+  watch: {
+  	windowWidth: function(v) {
+  		console.log('v: ', v)
+	    // if (v<480){
+	    // 	console.log(v)
+	    // 	this.pgCount = 4
+	    // 	console.log(this.pgCount)
+	    // }
+	    // else{
+	    // 	console.log(v)
+	    // 	this.pgCount = 6
+	    // }
+	}
+  },
+  created(){
+	window.addEventListener(
+      'resize',
+      function(){
+      	this.windowWidth = window.innerWidth
+      	if (window.innerWidth < 480){
+      		console.log(window.innerWidth)
+      		this.smallPag = true
+      	}
+      	// console.log(this.windowWidth)
+      }
+    )
   },
   beforeCreate() {
   	this.$http.get('articles/')
@@ -120,6 +158,7 @@ export default {
 		/*border-top: 3px solid #024B4F;*/
 		margin-bottom: 20px;
 		padding: 10px;
+		width: calc(100% - 20px);
 		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
 	}
 	.wrapper{
@@ -128,6 +167,7 @@ export default {
 	.article{
 		display: flex;
 		justify-content: center;
+		flex-wrap: wrap;
 		align-items: center;
 		color: rgba(0,0,0,0.5);
 
@@ -149,8 +189,8 @@ export default {
 	}
 	.title{
 		font-size: 1.6em;
-		/*color: #000;*/
 		color: #e06149;
+		padding: 5px 0;
 		cursor: pointer;
 	}
 	.title:hover{
@@ -158,7 +198,8 @@ export default {
 	}
 	.tags{
 		color: #4E6680;
-		font-size: 0.8em
+		font-size: 0.8em;
+		padding: 0 0 3px 0;
 	}
 	.ic{
 		font-size: 1.1em;
@@ -171,8 +212,20 @@ export default {
 		.content{
 			display: none;
 		}
-		.article{
-			padding: 20px 15px;
+		.title{
+			font-size: 1.1em
+		}
+		.ic{
+			font-size: 0.8em
+		}
+		/*.fl{
+			display: none;
+			flex-direction: column;
+			align-items: flex-start;
+		}*/
+		.el-pagination{
+			font-weight: 400;
+			padding: 0;
 		}
 	}
 </style>

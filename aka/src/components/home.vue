@@ -43,13 +43,15 @@ article{
 }
 @media (max-width: 760px){
 	article{
-		display: flex;
-		flex-direction: column;
+		grid-template-columns: 1fr;
+		/*grid-template-rows: 2fr 1fr;*/
+		width: 95%;
+		margin: auto;
 	}
 }
 @media (max-width: 480px){
 	article{
-		width: 100%;
+		/*width: 100%;*/
 	}
 }
 </style>
