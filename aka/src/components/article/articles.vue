@@ -73,7 +73,7 @@
 				  @current-change="handleCurrentChange"
 				  background
 				  layout="prev, pager, next"
-				  :total="100">
+				  :total="data.length">
 				</el-pagination>
 				<el-pagination 
 				  v-else
@@ -81,13 +81,10 @@
 				  @current-change="handleCurrentChange"
 				  background
 				  layout="prev, pager, next"
-				  :total="100">
+				  :total="data.length">
 				</el-pagination>
  			</div>
-			
-
 		</div>
-		
 	</div>
 </template>
 
@@ -101,28 +98,8 @@ export default {
       islike: false,
       showPagination: false,
       smallPag: false,
-      // pgCount: 6,
-      windowWidth: window.innerWidth
+      data: [],
     };
-  },
- //  computed: {
- //  	windowWidth() {
-	//     return this.$store.state.windowWidth;
-	// }
- //  },
-  watch: {
-  	windowWidth: function(v) {
-  		console.log('v: ', v)
-	    // if (v<480){
-	    // 	console.log(v)
-	    // 	this.pgCount = 4
-	    // 	console.log(this.pgCount)
-	    // }
-	    // else{
-	    // 	console.log(v)
-	    // 	this.pgCount = 6
-	    // }
-	}
   },
   created(){
 	window.addEventListener('resize', this.resize)
@@ -136,6 +113,7 @@ export default {
   			return r.json()
   		})
   		.then(r => {
+  			this.data = r
   			console.log(r)
   		}, r => {
   			console.log(r)

@@ -25,20 +25,18 @@
 						
 						<el-dropdown v-if="token">
 							<el-button class="icon log el-dropdown-link" type="primary" icon="el-icon-user"></el-button>
-							
 							<el-dropdown-menu class="dropdownS" slot="dropdown">
-						        <el-dropdown-item icon="el-icon-user-solid">
-						        	<router-link :to="{name: 'login'}">login</router-link>
+						        <el-dropdown-item icon="el-icon-setting">
+						        	<router-link :to="{name: 'profile'}">Profile</router-link>
 								</el-dropdown-item>
-						        <el-dropdown-item icon="el-icon-user">
-						        	<router-link :to="{name: 'reg'}">Register</router-link>
+						        <el-dropdown-item icon="el-icon-circle-plus-outline">
+						        	<router-link :to="{name: 'article_create'}">Create post</router-link>
 						        </el-dropdown-item>
 						    </el-dropdown-menu>
 						</el-dropdown>
 						
 						<el-dropdown v-else>
 							<el-button class="icon log el-dropdown-link" type="primary" icon="el-icon-user"></el-button>
-							
 							<el-dropdown-menu class="dropdownS" slot="dropdown">
 						        <el-dropdown-item icon="el-icon-user-solid">
 						        	<router-link :to="{name: 'login'}">login</router-link>
@@ -48,7 +46,6 @@
 						        </el-dropdown-item>
 						    </el-dropdown-menu>
 						</el-dropdown>
-						
 					</div>
 				</div>
 			</div>

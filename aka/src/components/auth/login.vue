@@ -1,37 +1,42 @@
 <template>
 	<div class="wrapperAuth">
 		<div class="logForm">
-			<form class="form" @submit.prevent="submit">
+			<el-form :model="ch_form" :rules="rules" ref="ch_form" class="demo-ruleForm form">
 				<h1 class="title">Вход</h1>
 
-				<div class="errorM" v-if="$v.ch_form.$invalid || formError">username or password wrong</div>
+				<div class="errorM" v-if="formError">username or password wrong</div>
 				<div class="inpDiv">
-					<label :class="{errorL:$v.ch_form.username.$invalid}" for="username">E-mail</label>
-					<el-input
-						:class="{errorI:$v.ch_form.username.$invalid}"
-						id="username"
-						v-model.lazy="$v.ch_form.username.$model"
-						clearable
-						>
-					</el-input>					
+					<el-form-item prop="username">
+						<label  for="username">Username or email</label>
+						<el-input
+							id="username"
+							v-model="ch_form.username"
+							clearable
+							>
+						</el-input>			
+					</el-form-item>		
 				</div>
 				<div class="inpDiv">
-					<label :class="{errorL:$v.ch_form.password.$invalid}" for="password">Пароль</label>
-					<el-input
-						:class="{errorI:$v.ch_form.password.$invalid}"
-						id="password"
-						v-model="ch_form.password"
-						@blur="$v.ch_form.password.$touch()"
-						clearable
-						show-password
-						>
-					</el-input>
+					<el-form-item prop="password">
+						<label for="password">Пароль</label>
+						<el-input
+							id="password"
+							v-model="ch_form.password"
+							clearable
+							show-password
+							>
+						</el-input>
+				    </el-form-item>
 				</div>
-				<div class="inpDiv">
-					<el-button type="primary" :disabled="$v.ch_form.$invalid || formError" @click="login">Войти</el-button>
+
+				<div class="mb">
+					<el-link  type="primary">Забыли пароль?</el-link>
 				</div>
-				<el-link type="primary">Забыли пароль?</el-link>
-			</form>
+				
+				<el-form-item >
+				    <el-button class="btnn" type="primary" @click="submit">Войти</el-button>
+				</el-form-item>
+			</el-form>
 			<div class="regDiv">
 				Ещё нет аккаунта? 
 				<router-link tag="el-link" :to="{name: 'reg'}"><el-link class="regf" type="primary">Зарегистрируйтесь</el-link></router-link>
@@ -50,27 +55,29 @@ export default {
         username: null,
         password: null
       },
-      formError: false
-    }
-  },
-  validations: {
-    ch_form: {
-       username: {
-        required,
-        minLength: minLength(4)
-      },
-      password: {
-        required,
-        minLength: minLength(6)
+      formError: false,
+      rules: {
+          username: [
+            { required: true, message: 'Please input username', trigger: 'blur' },
+            { min: 3, max: 15, message: 'Length should be 3 to 5', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: 'Please input password', trigger: 'blur' },
+            { min: 6, max: 15, message: 'Length should be 3 to 5', trigger: 'blur' }
+          ],
       }
     }
   },
   methods: {
     submit() {
-      this.$v.ch_form.$touch()
-      if (this.$v.ch_form.$invalid) {
-        return
-      }
+      this.$refs['ch_form'].validate((valid) => {
+          if (valid) {
+            this.login()
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     },
     login() {
       let data = {
@@ -83,19 +90,25 @@ export default {
         })
         .then(r => {
           console.log(r)
-          if (r.key){
-            sessionStorage.setItem('token', r.key)
+          if (r.token && r.uid){
+            sessionStorage.setItem('token', r.token)
             sessionStorage.setItem('uid', r.uid)
-            this.$router.push('/') 
+            this.$router.push({name: 'home'}) 
           }
-          else{
-         	this.formError = false
+          if (r.status){
+         	this.open2()
           }
         }, r => {
           console.log(r)
         })
-
-    }
+    },
+    open2() {
+        this.$notify({
+          title: 'Warning',
+          message: 'username or password wrong',
+          type: 'warning'
+        });
+    },
   }
 };
 </script>
@@ -113,7 +126,7 @@ export default {
 .form, .regDiv{
 	background: #fff;
 	padding: 20px 40px;
-	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 0 7px 3px rgba(0,0,0,0.1);
 	border-radius: 5px;
 }
 .regDiv{
@@ -132,8 +145,11 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 }
+.mb{
+	margin-bottom: 7px;
+	text-align: right;
+}
 .inpDiv{
-	padding: 20px 0 10px 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -151,6 +167,9 @@ export default {
 .errorI input{
 	border-color: #F56C6C!important;
 	animation: animate 0.2s linear 2;
+}
+.btnn{
+	width: 100%;
 }
 @keyframes animate{
 	25%{

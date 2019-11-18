@@ -20,10 +20,10 @@
 
 			<el-form v-if="token" :model="form" :rules="rules" ref="ruleForm" label-width="0" class="demo-ruleForm wd" size="mini">
 				<el-form-item prop="comment" size="medium">
-			      <el-input v-model="form.comment"></el-input>
+			      <el-input type="textarea" v-model="form.comment"></el-input>
 			    </el-form-item>
 			    <el-form-item>
-			      <el-button type="primary">Create</el-button>
+			      <el-button type="primary" @click="submitForm">Create</el-button>
 			      <el-button @click="resetForm">Reset</el-button>
 			    </el-form-item>
 			</el-form>
@@ -73,7 +73,7 @@ export default {
     submitForm() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-        	alert('submit!');
+        	this.comment()
         } else {
         	console.log('error submit!!');
         	return false;
@@ -82,6 +82,27 @@ export default {
 	},
 	resetForm() {
       this.$refs['ruleForm'].resetFields();
+    },
+    comment(){
+    	let headers = {
+    		'Authorization': 'Token ' + this.token
+    	}
+    	// console.log(headers)
+    	let data = {
+    		'text': this.form.comment,
+    		'article': this.id,
+    		'parent': null
+    	}
+    	console.log(data)
+    	this.$http.post('comments/', data, {headers})
+    	  .then(r => {
+    	  	return r.json()
+    	  })
+    	  .then(r => {
+    	  	console.log(r)
+    	  }, r => {
+    	  	console.log(r)
+    	  })
     }
   }
 };

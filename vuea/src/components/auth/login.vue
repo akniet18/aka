@@ -11,7 +11,7 @@
 						v-model="ch_form.username"
 						@blur="$v.ch_form.username.$touch()"
 						clearable
-						>
+					>
 					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.username.required">username is required</div>
 					<div class="errorM" v-if="!$v.ch_form.username.minLength">username minlegth 4</div>
@@ -25,7 +25,7 @@
 						@blur="$v.ch_form.password.$touch()"
 						clearable
 						show-password
-						>
+					>
 					</el-input>
 					<div class="errorM" v-if="!$v.ch_form.password.required">password is required</div>
 					<div class="errorM" v-if="!$v.ch_form.password.minLength">passowrd minlength 6</div>
@@ -57,7 +57,7 @@ export default {
   },
   validations: {
     ch_form: {
-        username: {
+      username: {
         required,
         minLength: minLength(4)
       },

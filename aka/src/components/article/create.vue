@@ -78,6 +78,8 @@ export default {
 <style lang="css" scoped>
 	.wrapper{
 		margin-top: 10px;
+		background: #fff;
+		padding: 10px 15px
 	}
 	.el-form--label-top, .el-form-item__label{
 		margin-bottom: -10px;
