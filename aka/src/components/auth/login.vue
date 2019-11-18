@@ -85,6 +85,7 @@ export default {
           console.log(r)
           if (r.key){
             sessionStorage.setItem('token', r.key)
+            sessionStorage.setItem('uid', r.uid)
             this.$router.push('/') 
           }
           else{

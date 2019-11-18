@@ -101,28 +101,7 @@ export default {
       islike: false,
       showPagination: false,
       smallPag: false,
-      // pgCount: 6,
-      windowWidth: window.innerWidth
     };
-  },
- //  computed: {
- //  	windowWidth() {
-	//     return this.$store.state.windowWidth;
-	// }
- //  },
-  watch: {
-  	windowWidth: function(v) {
-  		console.log('v: ', v)
-	    // if (v<480){
-	    // 	console.log(v)
-	    // 	this.pgCount = 4
-	    // 	console.log(this.pgCount)
-	    // }
-	    // else{
-	    // 	console.log(v)
-	    // 	this.pgCount = 6
-	    // }
-	}
   },
   created(){
 	window.addEventListener('resize', this.resize)
@@ -131,7 +110,8 @@ export default {
     window.removeEventListener('resize', this.resize);
   },
   beforeCreate() {
-  	this.$http.get('articles/')
+  	let uid = sessionStorage.getItem('uid')
+  	this.$http.get('articles/?author='+uid)
   		.then(r => {
   			return r.json()
   		})

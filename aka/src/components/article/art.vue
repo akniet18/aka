@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       islike: false,
+      id: this.$route.params.id,
       token: sessionStorage.getItem('token'),
       form: {
 		comment: '',

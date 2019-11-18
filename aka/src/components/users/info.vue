@@ -1,56 +1,47 @@
 <template>
   <div class="wrapper">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="top">
-        <el-form-item label="Username" prop="username">
-          <el-input v-model="ruleForm.username"></el-input>
+
+        <div class="flex">
+          <div class="avatar">
+            <el-avatar shape="square" :size="100" src=""></el-avatar>
+          </div>
+          <el-form-item class="username_in" prop="username">
+            <label for="username">Username</label>
+            <el-input v-model="ruleForm.username" id="username"></el-input>
+          </el-form-item>
+        </div>
+        
+        <el-form-item prop="email">
+          <label for="email">Email</label>
+          <el-input v-model="ruleForm.email" id="email"></el-input>
         </el-form-item>
 
-        <el-form-item label="Email" prop="email">
-          <el-input v-model="ruleForm.email"></el-input>
+        <el-form-item prop="first_name">
+          <label for="first_name">Firstname</label>
+          <el-input v-model="ruleForm.first_name" id="first_name"></el-input>
         </el-form-item>
 
-        <el-form-item label="Firstname" prop="first_name">
-          <el-input v-model="ruleForm.first_name"></el-input>
+        <el-form-item prop="last_name">
+          <label for="Lastname">Lastname</label>
+          <el-input v-model="ruleForm.last_name" id="Lastname"></el-input>
         </el-form-item>
 
-        <el-form-item label="Lastname" prop="last_name">
-          <el-input v-model="ruleForm.last_name"></el-input>
+        <el-form-item required prop="date1">
+            <label for="birth_date">Birth date</label>
+            <el-date-picker id="birth_date" type="date" placeholder="Pick a date" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
         </el-form-item>
 
-        <!-- <el-form-item label="Activity zone" prop="region">
-          <el-select v-model="ruleForm.region" placeholder="Activity zone">
-            <el-option label="Zone one" value="shanghai"></el-option>
-            <el-option label="Zone two" value="beijing"></el-option>
-          </el-select>
-        </el-form-item> -->
-
-        <el-form-item label="birth date" required prop="date1">
-            <el-date-picker type="date" placeholder="Pick a date" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-        </el-form-item>
-
-       <!--  <el-form-item label="Activity type" prop="type">
-          <el-checkbox-group v-model="ruleForm.type">
-            <el-checkbox label="Online activities" name="type"></el-checkbox>
-            <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-            <el-checkbox label="Offline activities" name="type"></el-checkbox>
-            <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item> -->
-
-        <el-form-item label="Gender" prop="gender">
-          <el-radio-group v-model="ruleForm.gender">
+        <el-form-item prop="gender">
+          <label for="Gender">Gender</label>
+          <el-radio-group id="Gender" v-model="ruleForm.gender">
             <el-radio label="Male"></el-radio>
             <el-radio label="Female"></el-radio>
           </el-radio-group>
         </el-form-item>
 
-        <!-- <el-form-item label="Activity form" prop="desc">
-          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-        </el-form-item> -->
-
         <el-form-item>
           <el-button type="primary" @click="submitForm">Create</el-button>
-          <el-button @click="resetForm">Reset</el-button>
         </el-form-item>
       </el-form>     
   </div>
@@ -104,15 +95,22 @@ export default {
           }
         });
       },
-      resetForm() {
-        this.$refs['ruleForm'].resetFields();
-      }
   }
 };
 </script>
 
 <style lang="css" scoped>
-label{
-  margin-bottom: -10px
+#Gender{
+  margin-left: 10px;
+}
+.flex{
+  display: flex;
+  align-items: center;
+}
+.avatar{
+  margin-right: 10px;
+}
+.username_in{
+  width: 100%;
 }
 </style>

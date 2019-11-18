@@ -1,24 +1,21 @@
 <template>
 	<div class="wrapper">
 		<HeaderApp></HeaderApp>
-
-		<div class="profile">
-			<div class="pr_head">
-				<div class="title active" >
-					<a href="">profile</a>
-				</div>
-				<div class="title">
-					<a href="">articles</a>
-				</div>
-				<div class="title">
-					<a href="">profile</a>
-				</div>
-			</div>
-
-			<div class="body">
-				<router-view></router-view>
-			</div>
+		
+		<div class="container">
+			<el-tabs type="border-card">
+			  <el-tab-pane label="User">
+			  	<InfoApp></InfoApp>
+			  </el-tab-pane>
+			  <el-tab-pane label="Favourites">
+			  	<FavApp></FavApp>
+			  </el-tab-pane>
+			  <el-tab-pane label="Articles">
+			  	<ArtApp></ArtApp>
+			  </el-tab-pane>
+			</el-tabs>
 		</div>
+		
 		<FooterApp></FooterApp>
 	</div>
 </template>
@@ -26,11 +23,17 @@
 <script>
 import HeaderApp from '../header'
 import FooterApp from '../footer'
+import InfoApp from './info'
+import ArtApp from './articles'
+import FavApp from './favorites'
 import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   components: {
 	HeaderApp,
-	FooterApp
+	FooterApp,
+	InfoApp,
+	FavApp,
+	ArtApp
   },
   data() {
     return {
@@ -60,33 +63,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.profile{
-	width: 80%;
+.container{
+	width: 82%;
 	margin: auto;
-}
-.pr_head{
-	width: 100%;
-	margin: auto;
-	display: flex;
-	/*border-bottom: 1px solid #000*/
-}
-.title{
-	padding: 10px;
-}
-.title a{
-	text-decoration: none;
-	padding: 10px;
-	font-size: 1.2em;
-	font-weight: bolder;
-}
-.active{
-	background: #fff
-}
-.body{
-	padding: 10px;
-	background: #fff
-}
-label{
-	margin-bottom: -10px
 }
 </style>

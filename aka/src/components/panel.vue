@@ -71,12 +71,7 @@ export default {
 	.artTitle:hover{
 		color: #024B4F
 	}
-	@media (max-width: 480px){
-		.title{
-			font-size: 1em
-		}
-		.artTitle{
-			font-size: 0.9em
-		}
+	@media (max-width: 48px){
+		
 	}
 </style>
