@@ -1,17 +1,29 @@
 <template>
 	<div class="wrapper">
     <div class="footer">
-      <div class="col1">
+      <div class="col1" v-if="token">
         <div class="title">
           Account
         </div>
         <div>
-          <a href="">News</a>
+          <a href="">Profile</a>
+        </div>
+        <div>
+          <a href="">Create Article</a>
+        </div>  
+      </div>
+      <div class="col1" v-else>
+        <div class="title">
+          Account
+        </div>
+        <div>
+          <a href="">login</a>
         </div>
         <div>
           <a href="">Register</a>
         </div>  
       </div>
+
       <div class="col2">
         <div class="title">
           Sections
@@ -35,7 +47,7 @@
 export default {
   data() {
     return {
-
+      token: sessionStorage.getItem('token'),
     }
   },
   methods: {

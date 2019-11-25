@@ -69,6 +69,25 @@ export default {
 	},
 	resetForm() {
       this.$refs['ruleForm'].resetFields();
+    },
+    create(){
+    	let headers = {
+    		'Authorization': 'Token ' + sessionStorage.getItem('token')
+        }
+    	let data = {
+    		'title': this.title,
+    		'text': this.content,
+    		'tags': this.tags
+    	}
+    	this.$http.post('articles/', data, {headers})
+    	  .then(r => {
+    	  	return r.json()
+    	  })
+    	  .then(r => {
+    	  	console.log(r)
+    	  }, r => {
+    	  	console.log(r)
+    	  })
     }
   }
 };

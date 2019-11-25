@@ -18,7 +18,7 @@
 				<div class="r_col">
 					<div class="searchD">
 						<div class="sDiv" v-show="shows">
-							<input class="searchInput"  type="text" placeholder="search...">
+							<input class="searchInput" v-model="search" type="text" placeholder="search..." @keyup.enter="searchF">
 							<i class="el-icon-close close" @click="shows=!shows"></i>
 						</div>
 						<el-button class="icon searchI" type="warning" @click="shows=!shows" icon="el-icon-search" plain></el-button>
@@ -27,10 +27,13 @@
 							<el-button class="icon log el-dropdown-link" type="primary" icon="el-icon-user"></el-button>
 							<el-dropdown-menu class="dropdownS" slot="dropdown">
 						        <el-dropdown-item icon="el-icon-setting">
-						        	<router-link :to="{name: 'profile'}">Profile</router-link>
+						        	<router-link :to="{name: 'profile', params: {uid: uid}}">Profile</router-link>
 								</el-dropdown-item>
 						        <el-dropdown-item icon="el-icon-circle-plus-outline">
 						        	<router-link :to="{name: 'article_create'}">Create post</router-link>
+						        </el-dropdown-item>
+						        <el-dropdown-item icon="el-icon-error">
+						        	<span @click="logout">Logout</span>
 						        </el-dropdown-item>
 						    </el-dropdown-menu>
 						</el-dropdown>
@@ -101,7 +104,9 @@ export default {
         upHere: false,
         shows: false,
         token: sessionStorage.getItem('token'),
-        hide: true
+        uid: sessionStorage.getItem('uid'),
+        hide: true,
+        search: ''
     }
   },
   methods: {
@@ -126,6 +131,15 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    searchF(){
+    	this.$router.push({name: 'search', query: {'search': this.search}})
+    },
+    logout(){
+    	sessionStorage.removeItem('token')
+        sessionStorage.removeItem('uid')
+        this.token = sessionStorage.getItem('token')
+        this.uid = sessionStorage.getItem('uid')
     }
   },
   created () {

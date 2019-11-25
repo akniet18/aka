@@ -79,10 +79,7 @@ export default {
     window.removeEventListener('resize', this.resize);
   },
   beforeCreate() {
-  	let data = {
-  		'id': this.uid
-  	}
-  	this.$http.post('favs/', data)
+  	this.$http.get('articles/?search='+this.$route.query.search)
   		.then(r => {
   			return r.json()
   		})

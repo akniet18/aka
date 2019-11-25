@@ -1,67 +1,36 @@
 <template>
 	<div class="wrapper">
-		<article>
+		<article v-for="d in data" v-bind:key="d.id">
 			<div class="article">
-				<div class="img">
-					
-				</div>
 				<div class="text">
-					<div class="date">10.09.2019</div>
-					<router-link class="title" :to="{name: 'article', params: { id: '1' }}" tag="div">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</router-link>
-					<div class="tags">tags, it, python, jquery</div>
-					<div class="content">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, harum. Debitis deleniti cum distinctio facilis optio quod quia deserunt. Vitae laborum nam reiciendis! Necessitatibus ab inventore voluptatum voluptatem eius. Iste.
+					<div class="date">{{ d.date | dataform }}</div>
+					<router-link class="title" :to="{name: 'article', params: { id: d.id }}" tag="div">{{ d.title }}</router-link>
+					<div class="tags">
+						<span v-for="tag, i in d.tags" v-bind:key="i">
+							<router-link class="title" :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}} </router-link>
+						</span>
 					</div>
-				</div>
-			</div>
-			<div class="artInfo">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" type="primary" size="mini" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
-			</div>
-		</article>
-		<article>
-			<div class="article">
-				<div class="img">
-					
-				</div>
-				<div class="text">
-					<div class="date">10.09.2019</div>
-					<div class="title">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-					<div class="tags">tags, it, python, jquery</div>
-					<div class="content">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, harum. Debitis deleniti cum distinctio facilis optio quod quia deserunt. Vitae laborum nam reiciendis! Necessitatibus ab inventore voluptatum voluptatem eius. Iste.
-					</div>
-				</div>
-			</div>
-			<div class="artInfo">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" type="primary" size="mini" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
-			</div>
-		</article>
-		<article>
-			<div class="article">
-				<div class="img">
-					
-				</div>
-				<div class="text">
-					<div class="date">10.09.2019</div>
-					<div class="title">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-					<div class="tags">tags, it, python, jquery</div>
-					<div class="content">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat, harum. Debitis deleniti cum distinctio facilis optio quod quia deserunt. Vitae laborum nam reiciendis! Necessitatibus ab inventore voluptatum voluptatem eius. Iste.
-					</div>
-				</div>
-			</div>
-			<div class="artInfo">
-				<div class="like"><el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" plain>10</el-button></div>
-				<div v-show="islike" class="islike"><el-button class="ic" icon="el-icon-star-on" type="primary" size="mini" plain><span>10</span></el-button></div>
-				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>5</el-button></div>
-			</div>
-		</article>
+					<div class="content" v-html="d.text.slice(0, 150)">
 
-		<div class="fl">
+					</div>
+				</div>
+			</div>
+			<div class="artInfo">
+				<div class="like">
+					<el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" 
+								:disabled="token !== 'undefined' || token !== 'null'" 
+								:plain="uid in d.favorite">
+						{{d.favorite.length}}
+					</el-button>
+				</div>
+				<div class="count">
+					<el-button class="ic" icon="el-icon-s-comment" type="warning" size="mini" plain>
+						<router-link :to="'article/'+d.id+'#comment'" tag="span">{{ d.comment.length }}</router-link>
+					</el-button>
+				</div>
+			</div>
+		</article>
+		<div class="fl" v-if="data.length > 15">
 			<el-switch v-model="showPagination">
  			</el-switch>
  			<div v-if="showPagination"></div>
@@ -73,7 +42,7 @@
 				  @current-change="handleCurrentChange"
 				  background
 				  layout="prev, pager, next"
-				  :total="100">
+				  :total="data.length">
 				</el-pagination>
 				<el-pagination 
 				  v-else
@@ -81,26 +50,26 @@
 				  @current-change="handleCurrentChange"
 				  background
 				  layout="prev, pager, next"
-				  :total="100">
+				  :total="data.length">
 				</el-pagination>
  			</div>
-			
-
 		</div>
-		
 	</div>
 </template>
 
 
 <script>
-export default {
-  name: 'articles',
 
+export default {
   data() {
     return {
+      uid: sessionStorage.getItem('uid'),
+      token: sessionStorage.getItem('token'),
       islike: false,
       showPagination: false,
       smallPag: false,
+      data: [],
+      date: '2019-11-23 11:19:00'
     };
   },
   created(){
@@ -110,12 +79,13 @@ export default {
     window.removeEventListener('resize', this.resize);
   },
   beforeCreate() {
-  	let uid = sessionStorage.getItem('uid')
-  	this.$http.get('articles/?author='+uid)
+
+  	this.$http.get('articled/?author='+this.uid)
   		.then(r => {
   			return r.json()
   		})
   		.then(r => {
+  			this.data = r
   			console.log(r)
   		}, r => {
   			console.log(r)
@@ -135,7 +105,7 @@ export default {
       		this.smallPag = false
       	}
     }
-  }
+  },
 };
 </script>
 
@@ -148,9 +118,9 @@ export default {
 	article{
 		background: #fff;
 		/*border-top: 3px solid #024B4F;*/
-		margin-bottom: 20px;
 		padding: 10px;
-		width: calc(100% - 20px);
+		width: calc(100% - 30px);
+		margin: 20px auto;
 		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
 	}
 	.wrapper{
@@ -158,9 +128,9 @@ export default {
 	}
 	.article{
 		display: flex;
-		justify-content: center;
+		/*justify-content: center;*/
 		flex-wrap: wrap;
-		align-items: center;
+		/*align-items: center;*/
 		color: rgba(0,0,0,0.5);
 
 	}
@@ -188,10 +158,14 @@ export default {
 	.title:hover{
 		color: #024B4F;
 	}
-	.tags{
+	.tags a{
 		color: #4E6680;
 		font-size: 0.8em;
 		padding: 0 0 3px 0;
+		text-decoration: none;
+	}
+	.tags a:hover{
+		text-decoration: underline;
 	}
 	.ic{
 		font-size: 1.1em;

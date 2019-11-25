@@ -5,8 +5,13 @@ import Vue from 'vue'
 import lazyLoading from './lazyLoading.js'
 import 'nprogress/nprogress.css';
 
+const options = {
+  latencyThreshold: 200, // Number of ms before progressbar starts showing, default: 100,
+  router: true, // Show progressbar when navigating routes, default: true
+  http: true // Show progressbar when doing Vue.http, default: true
+};
 Vue.use(VueRouter);
-Vue.use(NProgress);
+Vue.use(NProgress, options);
 
 const routes = [
   {
@@ -19,6 +24,11 @@ const routes = [
         component: lazyLoading('article/articles')
       },
       {
+        path: '/tag/:tags', 
+        name: 'tag',
+        component: lazyLoading('article/tag_art')
+      },
+      {
         path: '/article/:id', 
         name: 'article',
         component: lazyLoading('article/art')
@@ -27,6 +37,11 @@ const routes = [
         path: '/create', 
         name: 'article_create',
         component: lazyLoading('article/create')
+      },
+      {
+        path: '/search', 
+        name: 'search',
+        component: lazyLoading('article/search')
       },
     ]
   },
@@ -42,7 +57,7 @@ const routes = [
     component: lazyLoading('auth/reg')
   },
   {
-    path: '/profile', 
+    path: '/profile/:uid', 
     component: lazyLoading('users/profile'),
     children: [
       {

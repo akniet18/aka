@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
 import router from './routes/routes.js'
+import filters from './filters/index.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
@@ -24,4 +25,5 @@ new Vue({
   render: h => h(App),
   router,
   store,
+  filters,
 }).$mount('#app')

@@ -3,25 +3,37 @@
 		<div class="menu">
 			<div class="title">
 				<div class="title_text">
-					Lorem ipsum
+					Потоки
 				</div>
 			</div>
 			<div class="content">
-				<div class="artTitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+				<div class="artTitle">Разработка</div>
 			</div>
 			<div class="content">
-				<div class="artTitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+				<div class="artTitle">Дизайн</div>
+			</div>
+			<div class="content">
+				<div class="artTitle">Маркетинг</div>
+			</div>
+			<div class="content">
+				<div class="artTitle">Разное</div>
 			</div>
 		</div>
 
 		<div class="menu">
 			<div class="title">
 				<div class="title_text">
-					Lorem ipsum 2
+					Популярное
 				</div>
 			</div>
 			<div class="content">
-				<div class="artTitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+				<div class="artTitle">
+					<div class="artt">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+					<div class="ds">
+						<i class="el-icon-star-on favi"></i> 5  
+						<i class="el-icon-s-comment mr"></i> 5
+					</div>
+				</div>
 			</div>
 			<div class="content">
 				<div class="artTitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
@@ -47,11 +59,13 @@ export default {
 <style lang="css" scoped>
 	.wrapper{
 		margin-top: 10px;
+		height: 100%
 	}
 	.menu {
 		border-top: 2px solid #e06149;
 		margin-bottom: 20px;
-		background: #f7f7f7
+		background: #f7f7f7;
+		position: sticky;
 	}
 	.title{
 		position: relative;
@@ -65,11 +79,28 @@ export default {
 	.artTitle{
 		padding: 10px;
 		border-bottom: 2px solid #F2F2F2;
+	}
+	.artt{
 		cursor: pointer;
 		color: #662035
 	}
-	.artTitle:hover{
+	.artt:hover{
 		color: #024B4F
+	}
+	.ds{
+		margin-top: 5px;
+	}
+	.ds i{
+		font-size: 1.2em
+	}
+	.mr{
+		margin-left: 10px;
+		color: #E6A23C;
+		/*font-size: 1.1em*/
+	}
+	.favi{
+		color: #a0cfff;
+		font-size: 1.4em
 	}
 	@media (max-width: 48px){
 		

@@ -7,7 +7,7 @@
 					<router-link class="title" :to="{name: 'article', params: { id: d.id }}" tag="div">{{ d.title }}</router-link>
 					<div class="tags">
 						<span v-for="tag, i in d.tags" v-bind:key="i">
-							<router-link :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}} </router-link>
+							<router-link :to="{name: 'tag', params: { tags: tag }}" tag="a">{{tag}} </router-link>
 						</span>
 					</div>
 					<div class="content" v-html="d.text.slice(0, 150)">
@@ -23,13 +23,10 @@
 						{{d.favorite.length}}
 					</el-button>
 				</div>
-				<div class="count">
-					<el-button class="ic" icon="el-icon-s-comment" type="warning" size="mini" plain>
-						<router-link :to="'article/'+d.id+'#comment'" tag="span">{{ d.comment.length }}</router-link>
-					</el-button>
-				</div>
+				<div class="count"><el-button class="ic" icon="el-icon-chat-square" type="warning" size="mini" plain>{{ d.comment.length }}</el-button></div>
 			</div>
 		</article>
+		
 		<div class="fl" v-if="data.length > 15">
 			<el-switch v-model="showPagination">
  			</el-switch>
@@ -61,10 +58,13 @@
 <script>
 
 export default {
+  name: 'articles',
+
   data() {
     return {
       uid: sessionStorage.getItem('uid'),
       token: sessionStorage.getItem('token'),
+      tag: this.$route.params.tags,
       islike: false,
       showPagination: false,
       smallPag: false,
@@ -80,14 +80,15 @@ export default {
   },
   beforeCreate() {
   	let data = {
-  		'id': this.uid
+  		'tag': this.$route.params.tags
   	}
-  	this.$http.post('favs/', data)
+  	console.log(data)
+  	this.$http.post('tags/', data)
   		.then(r => {
   			return r.json()
   		})
   		.then(r => {
-  			this.data = r
+  			this.data = r.articles
   			console.log(r)
   		}, r => {
   			console.log(r)
@@ -120,9 +121,9 @@ export default {
 	article{
 		background: #fff;
 		/*border-top: 3px solid #024B4F;*/
+		margin-bottom: 20px;
 		padding: 10px;
-		width: calc(100% - 30px);
-		margin: 20px auto;
+		width: calc(100% - 20px);
 		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
 	}
 	.wrapper{
