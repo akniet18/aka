@@ -6,10 +6,10 @@
           Account
         </div>
         <div>
-          <a href="">Profile</a>
+          <router-link :to="{name: 'profile', params: {uid: uid}}">Profile</router-link>
         </div>
         <div>
-          <a href="">Create Article</a>
+          <router-link :to="{name: 'article_create'}">Create post</router-link>
         </div>  
       </div>
       <div class="col1" v-else>
@@ -17,10 +17,10 @@
           Account
         </div>
         <div>
-          <a href="">login</a>
+          <router-link :to="{name: 'login'}">Login</router-link>
         </div>
         <div>
-          <a href="">Register</a>
+          <router-link :to="{name: 'reg'}">login</router-link>
         </div>  
       </div>
 

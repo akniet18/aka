@@ -42,7 +42,7 @@
 							<el-button class="icon log el-dropdown-link" type="primary" icon="el-icon-user"></el-button>
 							<el-dropdown-menu class="dropdownS" slot="dropdown">
 						        <el-dropdown-item icon="el-icon-user-solid">
-						        	<router-link :to="{name: 'login'}">login</router-link>
+						        	<router-link :to="{name: 'login'}">Login</router-link>
 								</el-dropdown-item>
 						        <el-dropdown-item icon="el-icon-user">
 						        	<router-link :to="{name: 'reg'}">Register</router-link>
@@ -138,8 +138,7 @@ export default {
     logout(){
     	sessionStorage.removeItem('token')
         sessionStorage.removeItem('uid')
-        this.token = sessionStorage.getItem('token')
-        this.uid = sessionStorage.getItem('uid')
+        location.reload()
     }
   },
   created () {

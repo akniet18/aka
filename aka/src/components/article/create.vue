@@ -7,7 +7,16 @@
 			  </el-form-item>
 
 			  <el-form-item label="Content" prop="content">
-					<ckeditor :editor="editor" v-model="ruleForm.content" :config="editorConfig"></ckeditor>
+				 <editor 
+                    :value="editorText"
+                    :options="editorOptions"
+                    :html="editorHtml"
+                    :visible="editorVisible"
+                    previewStyle="vertical"
+                    height="500px"
+                    mode="wysiwyg"
+                    ref="tuiEditor"
+                 />
 			  </el-form-item>
 
 			  <el-form-item label="Tags" prop="tags">
@@ -15,7 +24,7 @@
 			  </el-form-item>
 
 			  <el-form-item>
-			    <el-button type="primary">Create</el-button>
+			    <el-button type="primary" @click="submitForm">Create</el-button>
 			    <el-button @click="resetForm">Reset</el-button>
 			  </el-form-item>
 			</el-form>
@@ -25,31 +34,63 @@
 
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import HeaderApp from '../header'
+import 'tui-editor/dist/tui-editor.css';
+import 'tui-editor/dist/tui-editor-contents.css';
+import 'codemirror/lib/codemirror.css';
+import { Editor } from '@toast-ui/vue-editor'
+
 export default {
   components: {
-	HeaderApp,
+    'editor': Editor
   },
   data() {
-    return {
-        editor: ClassicEditor,
-        editorData: '',
-        editorConfig: {
-            // The configuration of the editor.
+    return {    
+        editorText: '',
+        editorHTML: '',
+        editorOptions: {
+            minHeight: '200px',
+            language: 'en_US',
+            useCommandShortcut: true,
+            useDefaultHTMLSanitizer: true,
+            usageStatistics: true,
+            hideModeSwitch: false,
+            toolbarItems: [
+                'heading',
+                'bold',
+                'italic',
+                'strike',
+                'divider',
+                'hr',
+                'quote',
+                'divider',
+                'ul',
+                'ol',
+                'task',
+                'indent',
+                'outdent',
+                'divider',
+                'table',
+                'image',
+                'link',
+                'divider',
+                'code',
+                'codeblock'
+            ]
         },
+        editorHtml: '',
+        editorVisible: true,
         ruleForm: {
         	title: '',
-        	content: '',
+        	// content: '',
         	tags: ''
         },
         rules: {
 			title: [
 				{required: true, message: 'Please input title', trigger: 'blur' },
 			],
-			content: [
-				{required: true, message: 'Please input text', trigger: 'blur' },
-			],
+			// content: [
+			// 	{required: true, message: 'Please input text', trigger: 'blur' },
+			// ],
 			tags: [
 				{required: true, message: 'Please input tags', trigger: 'blur' },
 			],
@@ -60,7 +101,7 @@ export default {
     submitForm() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-        	alert('submit!');
+        	this.create()
         } else {
         	console.log('error submit!!');
         	return false;
@@ -70,15 +111,20 @@ export default {
 	resetForm() {
       this.$refs['ruleForm'].resetFields();
     },
+    getHtml() {
+        let html = this.$refs.tuiEditor.invoke('getHtml');
+        return html
+    },
     create(){
     	let headers = {
     		'Authorization': 'Token ' + sessionStorage.getItem('token')
         }
     	let data = {
-    		'title': this.title,
-    		'text': this.content,
-    		'tags': this.tags
+    		'title': this.ruleForm.title,
+    		'text': this.getHtml(),
+    		'tags': this.ruleForm.tags
     	}
+        console.log(data)
     	this.$http.post('articles/', data, {headers})
     	  .then(r => {
     	  	return r.json()
@@ -88,22 +134,22 @@ export default {
     	  }, r => {
     	  	console.log(r)
     	  })
-    }
-  }
+    },
+  },
 };
 </script>
 
 
 <style lang="css" scoped>
-	.wrapper{
-		margin-top: 10px;
-		background: #fff;
-		padding: 10px 15px
-	}
-	.el-form--label-top, .el-form-item__label{
-		margin-bottom: -10px;
-	}
-	@media (max-width: 48px){
-		
-	}
+.wrapper{
+	margin-top: 10px;
+	background: #fff;
+	padding: 10px 15px
+}
+.el-form--label-top, .el-form-item__label{
+	margin-bottom: -10px;
+}
+@media (max-width: 48px){
+	
+}
 </style>

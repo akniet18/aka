@@ -3,7 +3,7 @@
 		<HeaderApp></HeaderApp>
 		
 		<div class="container">
-			<el-tabs type="border-card">
+			<el-tabs type="border-card" class="sect">
 			  <el-tab-pane label="User">
 			  	<InfoApp></InfoApp>
 			  </el-tab-pane>
@@ -26,7 +26,6 @@ import FooterApp from '../footer'
 import InfoApp from './info'
 import ArtApp from './articles'
 import FavApp from './favorites'
-import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   components: {
 	HeaderApp,
@@ -37,23 +36,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        username: null,
-        password: null
-      },
       formError: false
-    }
-  },
-  validations: {
-    ch_form: {
-       username: {
-        required,
-        minLength: minLength(4)
-      },
-      password: {
-        required,
-        minLength: minLength(6)
-      }
     }
   },
   methods: {
@@ -66,5 +49,10 @@ export default {
 .container{
 	width: 82%;
 	margin: auto;
+	margin-bottom: 10px;
+}
+.sect{
+	min-height: 50vh;
+	height: 100%;
 }
 </style>

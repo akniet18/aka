@@ -13,6 +13,17 @@ const options = {
 Vue.use(VueRouter);
 Vue.use(NProgress, options);
 
+
+const ifAuth = (to, from, next) => {
+  if (sessionStorage.getItem('token')){
+    next()
+  }
+  else{
+    next('/login')
+  }
+}
+
+
 const routes = [
   {
     path: '', 
@@ -36,7 +47,8 @@ const routes = [
       {
         path: '/create', 
         name: 'article_create',
-        component: lazyLoading('article/create')
+        component: lazyLoading('article/create'),
+        beforeEnter: ifAuth
       },
       {
         path: '/search', 
@@ -63,24 +75,28 @@ const routes = [
       {
         path: '',
         name: 'profile',
-        component: lazyLoading('users/info')
+        component: lazyLoading('users/info'),
       }
     ]
   },
+  { 
+    path: '*', 
+    component: lazyLoading('404page')
+  }
 ]
 
 const router = new VueRouter({ mode: 'history', routes: routes });
 
-router.beforeResolve((to, from, next) => {
-  if (to.name) {
-      NProgress.start()
-  }
-  next()
-})
+// router.beforeResolve((to, from, next) => {
+//   if (to.name) {
+//       NProgress.start()
+//   }
+//   next()
+// })
 
-router.afterEach((to, from) => {
-  NProgress.done()
-})
+// router.afterEach((to, from) => {
+//   NProgress.done()
+// })
 
 
 export default router

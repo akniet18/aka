@@ -9,14 +9,20 @@
 			<div class="tags">
 				<div class="t_title">Теги:</div>
 				<div class="tag">
-					<span v-for="tag, i in data.tags" v-bind:key="i">
-						{{tag}} 
+					<span v-for="tag, i in data.tags.split(' ')" v-bind:key="i">
+						<router-link :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}}  </router-link>
 					</span>
 				</div>
 			</div>
 			<div class="info">
 				<div class="like">
-					<el-button class="ic" icon="el-icon-star-off" type="primary" size="mini" :disabled="token !== 'undefined' || token !== 'null'" plain>
+					<el-button v-if="(token) && (data.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
+						{{data.favorite.length}}
+					</el-button>
+					<el-button v-else-if="(token) && (data.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain @click="addFav(d.id)">
+						{{data.favorite.length}}
+					</el-button>
+					<el-button v-else class="ic" icon="el-icon-star-off" type="primary" size="mini" disabled >
 						{{data.favorite.length}}
 					</el-button>
 				</div>
@@ -44,7 +50,7 @@
 				</div>
 			</div>
 
-			<div class="commentD" v-for="c in data.comment">
+			<div class="commentD" v-for="c in comments" v-bind:key="c.id">
 				<div class="commentInfo">
 					<div class="c_auth">{{c.author.username}}</div>
 					<div class="c_date">{{c.date | dataform}}</div>
@@ -75,7 +81,8 @@ export default {
 			{required: true, message: 'Please input comment', trigger: 'blur' },
 		],
 	  },
-	  data: []
+	  data: [],
+	  comments: []
     };
   },
   created() {
@@ -89,8 +96,21 @@ export default {
   		}, r => {
   			console.log(r)
   		})
+  	this.getComments()
   },
   methods: {
+  	getComments(){
+  		this.$http.get('comments/?article='+this.id)
+	  	  .then(r=>{
+	  	  	return r.json()
+	  	  })
+	  	  .then(r=>{
+	  	  	this.comments = r
+	  	  	console.log(r)
+	  	  }, r => {
+	  	  	console.log(r)
+	  	  })
+  	},
     submitForm() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
@@ -106,12 +126,12 @@ export default {
     },
     comment(){
     	let headers = {
-    		'Authorization': 'Token ' + this.token
+    		'Authorization': 'Token ' + sessionStorage.getItem('token')
     	}
     	// console.log(headers)
     	let data = {
     		'text': this.form.comment,
-    		'article': this.id,
+    		'article': this.$route.params.id,
     		'parent': null
     	}
     	console.log(data)
@@ -121,6 +141,7 @@ export default {
     	  })
     	  .then(r => {
     	  	console.log(r)
+    	  	this.getComments()
     	  }, r => {
     	  	console.log(r)
     	  })
@@ -133,11 +154,13 @@ export default {
 <style lang="css" scoped>
 	.wrapper{
 		margin: 10px 0;
+		width: 100%;
 	}
 	.art{
 		padding: 10px;
 		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
 		background: #fff;
+		/*width: 100%;*/
 	}
 	.title{
 		font-size: 1.7em;
@@ -173,7 +196,7 @@ export default {
 		background: #fff;
 		height: 100%;
 		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
-		padding-bottom: 5px;
+		padding-bottom: 20px;
 	}
 	.comD_title{
 		font-size: 1.8em;
@@ -184,7 +207,7 @@ export default {
 		color: #4E6680 
 	}
 	.commentD{
-		padding: 20px;
+		padding: 20px 20px 0 20px;
 	}
 	.commentInfo{
 		display: flex;
@@ -215,6 +238,25 @@ export default {
 	.center_div a:hover{
 		text-decoration: underline;
 	}
+	.tags a{
+		color: #4E6680;
+		font-size: 0.8em;
+		padding: 0 0 3px 0;
+		text-decoration: none;
+	}
+	.tags a:hover{
+		text-decoration: underline;
+	}
+	/*.text{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+	.art p, .art img, .text div{
+		width: 95%;
+		margin: auto;
+	}*/
 	@media (max-width: 480px){
 		.art{
 			padding: 20px 15px;

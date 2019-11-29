@@ -9,7 +9,7 @@
 								<div class="date">{{ d.date | dataform }}</div>
 								<router-link class="title" :to="{name: 'article', params: { id: d.id }}" tag="div">{{ d.title }}</router-link>
 								<div class="tags">
-									<span v-for="tag, i in d.tags" v-bind:key="i">
+									<span v-for="tag, i in d.tags.split(' ')" v-bind:key="i">
 										<router-link class="title" :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}} </router-link>
 									</span>
 								</div>
@@ -20,10 +20,10 @@
 						</div>
 						<div class="artInfo">
 							<div class="like">
-								<el-button v-if="token && !includes(d.favorite)" class="ic" icon="el-icon-star-off" type="primary" size="mini" >
+								<el-button v-if="(token) && (d.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
 									{{d.favorite.length}}
 								</el-button>
-								<el-button v-else-if="token && includes(d.favorite)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain >
+								<el-button v-else-if="(token) && (d.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain  @click="addFav(d.id)">
 									{{d.favorite.length}}
 								</el-button>
 								<el-button v-else class="ic" icon="el-icon-star-off" type="primary" size="mini" disabled >
@@ -69,7 +69,7 @@
 								<div class="date">{{ d.date | dataform }}</div>
 								<router-link class="title" :to="{name: 'article', params: { id: d.id }}" tag="div">{{ d.title }}</router-link>
 								<div class="tags">
-									<span v-for="tag, i in d.tags" v-bind:key="i">
+									<span v-for="tag, i in d.tags.split(' ')" v-bind:key="i">
 										<router-link class="title" :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}} </router-link>
 									</span>
 								</div>
@@ -80,10 +80,10 @@
 						</div>
 						<div class="artInfo">
 							<div class="like">
-								<el-button v-if="token && !includes(d.favorite)" class="ic" icon="el-icon-star-off" type="primary" size="mini" >
+								<el-button v-if="(token) && (d.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
 									{{d.favorite.length}}
 								</el-button>
-								<el-button v-else-if="token && includes(d.favorite)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain >
+								<el-button v-else-if="(token) && (d.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain @click="addFav(d.id)">
 									{{d.favorite.length}}
 								</el-button>
 								<el-button v-else class="ic" icon="el-icon-star-off" type="primary" size="mini" disabled >
@@ -191,10 +191,23 @@ export default {
       		this.smallPag = false
       	}
     },
-    includes(arr){
-    	console.log(arr.includes(this.uid))
-    	return arr.includes(this.uid)
-    }
+	addFav(id) {
+		let headers = {
+        	'Authorization': 'Token ' + sessionStorage.getItem('token')
+    	}
+    	let data = {
+    		'id': id
+    	}
+    	this.$http.post('article/add/', data, {headers})
+    	  .then(r => {
+    	  	return r.json()
+    	  })
+    	  .then(r => {
+    	  	console.log(r)
+    	  }, r => {
+    	  	console.log(r)
+    	  })
+	}    
   },
 };
 </script>

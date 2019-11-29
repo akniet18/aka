@@ -3,6 +3,7 @@
 	   <headerApp></headerApp>
 	    <article>
 	        <router-view></router-view>
+	        <vue-progress-bar></vue-progress-bar>
 	        <PanelApp></PanelApp>
 	    </article>
 	    <FooterApp></FooterApp>
