@@ -63,14 +63,13 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 export default {
   name: 'reg',
   data() {
   	var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('Please input the password again'));
-        } else if (value !== this.ruleForm.pass) {
+        } else if (value !== this.reg_form.password) {
           callback(new Error('Two inputs don\'t match!'));
         } else {
           callback();
@@ -106,7 +105,7 @@ export default {
     register() {
       this.$refs['reg_form'].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.reg()
           } else {
             console.log('error submit!!');
             return false;
@@ -117,11 +116,10 @@ export default {
       let data = {
         'username': this.reg_form.username,
         'email': this.reg_form.email,
-        'password1': this.reg_form.password,
-        'password2': this.reg_form.password2
+        'password': this.reg_form.password,
       }
       console.log(data)
-      this.$http.post('rest-auth/registration/', data)
+      this.$http.post('users/register/', data)
         .then(r => {
            console.log(r)
            if (r.statusText == 'Created'){
