@@ -16,10 +16,10 @@
 			</div>
 			<div class="info">
 				<div class="like">
-					<el-button v-if="(token) && (data.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
+					<el-button v-if="(token) && (data.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(data.id)">
 						{{data.favorite.length}}
 					</el-button>
-					<el-button v-else-if="(token) && (data.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain @click="addFav(d.id)">
+					<el-button v-else-if="(token) && (data.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain @click="addFav(data.id)">
 						{{data.favorite.length}}
 					</el-button>
 					<el-button v-else class="ic" icon="el-icon-star-off" type="primary" size="mini" disabled >
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div class="comD" id="comment">
-			<div class="comD_title">Комментарии <span>1</span></div>
+			<div class="comD_title">Комментарии <span>{{data.comment.length}}</span></div>
 
 			<el-form v-if="token" :model="form" :rules="rules" ref="ruleForm" label-width="0" class="demo-ruleForm wd" size="mini">
 				<el-form-item prop="comment" size="medium">
@@ -71,7 +71,8 @@ export default {
   data() {
     return {
       islike: false,
-      id: this.$route.params.id,
+	  id: this.$route.params.id,
+	  uid: sessionStorage.getItem('uid'),
       token: sessionStorage.getItem('token'),
       form: {
 		comment: '',
@@ -145,7 +146,39 @@ export default {
     	  }, r => {
     	  	console.log(r)
     	  })
-    }
+	},
+	addFav(id) {
+		let headers = {
+        	'Authorization': 'Token ' + sessionStorage.getItem('token')
+    	}
+    	let data = {
+    		'id': id
+    	}
+    	this.$http.post('article/add/', data, {headers})
+    	  .then(r => {
+    	  	return r.json()
+    	  })
+    	  .then(r => {
+			console.log(r)
+			for (let i in this.posts){
+				if (this.posts[i].id == id){
+					if (r.status == "post add fav"){
+						this.posts[i].favorite.push(this.uid)
+					}else{
+						const index = this.posts[i].favorite.indexOf(this.uid);
+						if (index > -1) {
+							this.posts[i].favorite.splice(index, 1)
+						}
+						
+					}
+					console.log(this.posts[i].favorite)
+				}
+				
+			}		
+    	  }, r => {
+    	  	console.log(r)
+    	  })
+	}    
   }
 };
 </script>
@@ -246,6 +279,15 @@ export default {
 	}
 	.tags a:hover{
 		text-decoration: underline;
+	}
+	.text{
+		width: 100%;
+		height: auto;
+	}
+	.text >>> *{
+		width: 90%;
+		margin: 5px auto;
+		height: auto;		
 	}
 	/*.text{
 		width: 100%;

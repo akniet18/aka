@@ -115,7 +115,39 @@ export default {
       	else{
       		this.smallPag = false
       	}
-    }
+	},
+	addFav(id) {
+		let headers = {
+        	'Authorization': 'Token ' + sessionStorage.getItem('token')
+    	}
+    	let data = {
+    		'id': id
+    	}
+    	this.$http.post('article/add/', data, {headers})
+    	  .then(r => {
+    	  	return r.json()
+    	  })
+    	  .then(r => {
+			console.log(r)
+			for (let i in this.posts){
+				if (this.posts[i].id == id){
+					if (r.status == "post add fav"){
+						this.posts[i].favorite.push(this.uid)
+					}else{
+						const index = this.posts[i].favorite.indexOf(this.uid);
+						if (index > -1) {
+							this.posts[i].favorite.splice(index, 1)
+						}
+						
+					}
+					console.log(this.posts[i].favorite)
+				}
+				
+			}		
+    	  }, r => {
+    	  	console.log(r)
+    	  })
+	}    
   },
 };
 </script>

@@ -73,6 +73,7 @@ export default {
   align-items: center;
   color: #fff;
   padding: 20px 0 30px 0;
+  margin-bottom: 0;
 }
 .title{
   border-bottom: 2px solid #e06149;

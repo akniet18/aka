@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="section">
       <div class="avatar">
-        <el-avatar shape="square" :size="50" src=""></el-avatar>
+        <el-avatar shape="square" :size="70" :src="ruleForm.avatar"></el-avatar>
       </div>
       <div>
         <span class="usrname">{{ruleForm.username}}</span>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="brthdate">
-      {{ruleForm.birth_date | dateform}}
+      {{ruleForm.birth_date | dataform}}
     </div>
     
     <div class="about">
@@ -39,9 +39,14 @@
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" label-position="top">
         <div class="flex">
+
           <div class="avatar">
-            <el-avatar shape="square" :size="100" src=""></el-avatar>
+            <div class="avadiv" >
+              <el-avatar v-if="ruleForm.avatar" class="avatar2" shape="square" :size="100" :src="ruleForm.avatar"></el-avatar>
+              <input type="file" data-max-file-size="3MB" class="fileinput" @change="previewFiles"  data-max-files="1">
+            </div>
           </div>
+
           <el-form-item class="username_in" prop="username">
             <label for="username">Username</label>
             <el-input v-model="ruleForm.username" id="username"></el-input>
@@ -82,6 +87,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
@@ -98,14 +105,14 @@ export default {
         rules: {
           username: [
             { required: true, message: 'Please input username', trigger: 'blur' },
-            { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+            { min: 3, max: 15, message: 'Length should be 3 to 5', trigger: 'blur' }
           ],
           email: [
             { required: true, message: 'Please input email', trigger: 'blur' },
             { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
           ],
           birth_date: [
-            { type: 'date', required: true, message: 'Please pick a time', trigger: 'blur' }
+            { required: true, message: 'Please pick a time', trigger: 'blur' }
           ],
           first_name: [
             { required: true, message: 'Please input firstname', trigger: 'blur' }
@@ -120,7 +127,8 @@ export default {
         { name: 'Tag 3', type: 'info' },
         { name: 'Tag 4', type: 'warning' },
         { name: 'Tag 5', type: 'danger' }
-      ]
+      ],
+      file: null
     }
   },
   created() {
@@ -149,7 +157,7 @@ export default {
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             this.dialogFormVisible = false
-            alert('submit!');
+            this.changeI()
           }else {
             console.log('error submit!!');
             return false;
@@ -158,20 +166,48 @@ export default {
     },
     changeI(){
       let headers = {
-        'Authorization': 'Token ' + sessionStorage.getItem('token')
+        'Authorization': 'Token ' + sessionStorage.getItem('token'),
+        'Content-Type' : 'multipart/form-data'
       }
-      let data = {
-        'username': this.ruleForm.username,
-        'email': this.ruleForm.email,
-        'birth_date': this.ruleForm.birth_date,
-        'first_name': this.ruleForm.first_name,
-        'last_name': this.ruleForm.last_name,
-        'avatar': this.ruleForm.avatar,
-        'about': this.ruleForm.about
+      var a = moment(String(this.ruleForm.birth_date)).format('YYYY-MM-DD')
+      let data = new FormData()
+      if (this.file != null){
+        data['avatar'] = this.file  
       }
-      this.$http.put('users/' + sessionStorage.getItem('uid') + '/', {headers})
-    }
-
+      data.append('username', this.ruleForm.username)
+      data.append('email', this.ruleForm.email)
+      data.append('birth_date', a)
+      data.append('first_name', this.ruleForm.first_name)
+      data.append('last_name', this.ruleForm.last_name)
+      data.append('about', this.ruleForm.about)
+      console.log(data)
+      this.$http.put('users/'+sessionStorage.getItem('uid')+'/', data, {headers})
+        .then(r => {
+          return r.json()
+        })
+        .then(r => {
+          console.log(r)
+          this.ruleForm.username = r.username
+          this.ruleForm.email = r.email
+          this.ruleForm.birth_date = r.birth_date
+          this.ruleForm.first_name = r.first_name
+          this.ruleForm.last_name = r.last_name
+          this.ruleForm.avatar = r.avatar
+          this.ruleForm.about = r.about
+        }, r=> {
+          console.log(r)
+        })
+    },
+    previewFiles(event) {
+      this.file = event.target.files[0];
+      var reader = new FileReader();
+      var imgtag = document.querySelector(".avatar2 img");
+    
+      reader.onload = function(event) {
+        imgtag.src = event.target.result;
+      };
+      reader.readAsDataURL(this.file);
+   }
   }
 };
 </script>
@@ -204,5 +240,17 @@ export default {
 .name{
   margin-top: 10px;
   font-size: 1.2em;
+}
+
+.avadiv{
+  position: relative;
+}
+.fileinput{
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
 }
 </style>

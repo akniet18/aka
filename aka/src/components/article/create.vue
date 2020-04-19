@@ -23,6 +23,14 @@
 			    <el-input v-model="ruleForm.tags"></el-input>
 			  </el-form-item>
 
+        <el-form-item>
+          <el-radio-group v-model="radio">
+            <el-radio :label="1">Blog</el-radio>
+            <el-radio :label="2">Questions</el-radio>
+            <el-radio :label="3">News</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
 			  <el-form-item>
 			    <el-button type="primary" @click="submitForm">Create</el-button>
 			    <el-button @click="resetForm">Reset</el-button>
@@ -44,7 +52,8 @@ export default {
     'editor': Editor
   },
   data() {
-    return {    
+    return {
+        radio: 1,
         editorText: '',
         editorHTML: '',
         editorOptions: {
@@ -85,16 +94,16 @@ export default {
         	tags: ''
         },
         rules: {
-			title: [
-				{required: true, message: 'Please input title', trigger: 'blur' },
-			],
-			// content: [
-			// 	{required: true, message: 'Please input text', trigger: 'blur' },
-			// ],
-			tags: [
-				{required: true, message: 'Please input tags', trigger: 'blur' },
-			],
-		},
+          title: [
+            {required: true, message: 'Please input title', trigger: 'blur' },
+          ],
+          // content: [
+          // 	{required: true, message: 'Please input text', trigger: 'blur' },
+          // ],
+          tags: [
+            {required: true, message: 'Please input tags', trigger: 'blur' },
+          ],
+        },
     };
   },
   methods: {
@@ -122,9 +131,24 @@ export default {
     	let data = {
     		'title': this.ruleForm.title,
     		'text': this.getHtml(),
-    		'tags': this.ruleForm.tags
-    	}
-        console.log(data)
+    		'tags': [this.ruleForm.tags]
+      }
+      if (this.radio == 1){
+        data['is_blog'] = true,
+        data["is_q"] = false,
+        data['is_news'] = false
+      }
+      else if(this.radio == 2){
+        data['is_blog'] = false,
+        data["is_q"] = true,
+        data['is_news'] = false
+      }
+      else{
+        data['is_blog'] = false,
+        data["is_q"] = false,
+        data['is_news'] = true
+      }
+      console.log(data)
     	this.$http.post('articles/', data, {headers})
     	  .then(r => {
     	  	return r.json()

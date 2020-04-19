@@ -25,15 +25,20 @@
 						
 						<el-dropdown v-if="token">
 							<el-button class="icon log el-dropdown-link" type="primary" icon="el-icon-user"></el-button>
+							
 							<el-dropdown-menu class="dropdownS" slot="dropdown">
-						        <el-dropdown-item icon="el-icon-setting">
-						        	<router-link :to="{name: 'profile', params: {uid: uid}}">Profile</router-link>
-								</el-dropdown-item>
-						        <el-dropdown-item icon="el-icon-circle-plus-outline">
-						        	<router-link :to="{name: 'article_create'}">Create post</router-link>
-						        </el-dropdown-item>
-						        <el-dropdown-item icon="el-icon-error">
-						        	<span @click="logout">Logout</span>
+								<router-link :to="{name: 'profile', params: {uid: uid}}">
+						        	<el-dropdown-item icon="el-icon-setting">
+										Profile
+									</el-dropdown-item>
+								</router-link>
+								<router-link :to="{name: 'article_create'}">
+						        	<el-dropdown-item icon="el-icon-circle-plus-outline">
+						        		Create post
+						        	</el-dropdown-item>
+								</router-link>
+						        <el-dropdown-item @click="logout" icon="el-icon-error">
+						        	<span>Logout</span>
 						        </el-dropdown-item>
 						    </el-dropdown-menu>
 						</el-dropdown>

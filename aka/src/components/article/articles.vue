@@ -3,7 +3,7 @@
 		<div class="container">
 			<el-tabs>
 			  <el-tab-pane label="Все подряд">
-					<article v-for="d in data" v-bind:key="d.id">
+					<article v-for="d in posts" v-bind:key="d.id">
 						<div class="article">
 							<div class="text">
 								<div class="date">{{ d.date | dataform }}</div>
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 					</article>
-					<div class="fl" v-if="data.length > 15">
+					<div class="fl" v-if="posts.length > 15">
 						<el-switch v-model="showPagination">
 			 			</el-switch>
 			 			<div v-if="showPagination"></div>
@@ -49,7 +49,7 @@
 							  @current-change="handleCurrentChange"
 							  background
 							  layout="prev, pager, next"
-							  :total="data.length">
+							  :total="posts.length">
 							</el-pagination>
 							<el-pagination 
 							  v-else
@@ -57,7 +57,7 @@
 							  @current-change="handleCurrentChange"
 							  background
 							  layout="prev, pager, next"
-							  :total="data.length">
+							  :total="posts.length">
 							</el-pagination>
 			 			</div>
 					</div>
@@ -80,7 +80,7 @@
 						</div>
 						<div class="artInfo">
 							<div class="like">
-								<el-button v-if="(token) && (d.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
+								<el-button autofocus=true v-if="(token) && (d.favorite.indexOf(parseInt(uid)) != -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" @click="addFav(d.id)">
 									{{d.favorite.length}}
 								</el-button>
 								<el-button v-else-if="(token) && (d.favorite.indexOf(parseInt(uid)) == -1)" class="ic" icon="el-icon-star-off" type="primary" size="mini" plain @click="addFav(d.id)">
@@ -97,7 +97,7 @@
 							</div>
 						</div>
 					</article>
-					<div class="fl" v-if="data.length > 15">
+					<div class="fl" v-if="posts.length > 15">
 						<el-switch v-model="showPagination">
 			 			</el-switch>
 			 			<div v-if="showPagination"></div>
@@ -141,7 +141,7 @@ export default {
       islike: false,
       showPagination: false,
       smallPag: false,
-      data: [],
+      posts: [],
       date: '2019-11-23 11:19:00',
       sData: []
     };
@@ -158,7 +158,7 @@ export default {
   			return r.json()
   		})
   		.then(r => {
-  			this.data = r
+  			this.posts = r
   			this.sData = [...r]
   			for (let i in this.sData){
   				let a = this.sData[i]['favorite'].length + this.sData[i]['comment'].length
@@ -203,7 +203,22 @@ export default {
     	  	return r.json()
     	  })
     	  .then(r => {
-    	  	console.log(r)
+			console.log(r)
+			for (let i in this.posts){
+				if (this.posts[i].id == id){
+					if (r.status == "post add fav"){
+						this.posts[i].favorite.push(this.uid)
+					}else{
+						const index = this.posts[i].favorite.indexOf(this.uid);
+						if (index > -1) {
+							this.posts[i].favorite.splice(index, 1)
+						}
+						
+					}
+					console.log(this.posts[i].favorite)
+				}
+				
+			}		
     	  }, r => {
     	  	console.log(r)
     	  })
@@ -277,6 +292,10 @@ export default {
 	.commentI{
 		color: #65a3be
 	}
+	.content img{
+		width: 100%;
+		height: auto;
+	}
 	@media (max-width: 480px){
 		.content{
 			display: none;
@@ -292,4 +311,5 @@ export default {
 			align-items: flex-start;
 		}
 	}
+
 </style>

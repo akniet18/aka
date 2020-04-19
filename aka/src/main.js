@@ -26,7 +26,8 @@ Vue.use(VueResourceProgressBarInterceptor, {
 });
 Vue.use(Vuelidate)
 
-Vue.http.options.root = 'https://akaprod.herokuapp.com/';
+// Vue.http.options.root = 'https://akaprod.herokuapp.com/';
+Vue.http.options.root = 'http://localhost:8000/';
 // Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
 Vue.config.productionTip = false
 
