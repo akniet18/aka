@@ -27,7 +27,7 @@ Vue.use(VueResourceProgressBarInterceptor, {
 Vue.use(Vuelidate)
 
 Vue.http.options.root = 'http://v1.ontimapp.club/';
-Vue.http.options.root = 'http://localhost:8000/';
+// Vue.http.options.root = 'http://localhost:8000/';
 // Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
 Vue.config.productionTip = false
 
