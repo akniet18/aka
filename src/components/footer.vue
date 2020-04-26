@@ -1,6 +1,12 @@
 <template>
 	<div class="wrapper">
-    <div class="footer">
+
+    <footer>
+      © Almaty 2020
+    </footer>
+  
+
+    <!-- <div class="footer">
       <div class="col1" v-if="token">
         <div class="title">
           Account
@@ -38,7 +44,7 @@
         <div></div>
         <div></div>
       </div>
-    </div>
+    </div> -->
 		
 	</div>
 </template>
@@ -57,11 +63,17 @@ export default {
 </script>
 
 <style lang="css" scoped>
+footer{
+  color: #e06149;
+  padding: 20px 0;
+}
 .wrapper{
   width: 100%;
-  height: 100%;
+  height: auto;
   background: #343434;
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .footer{
   width: 80%;

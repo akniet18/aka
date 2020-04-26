@@ -119,10 +119,12 @@ export default {
         'password': this.reg_form.password,
       }
       console.log(data)
-      this.$http.post('users/register/', data)
+	  this.$http.post('users/register/', data)
+	  	.then(r=>{
+			  return r.json()
+		  })
         .then(r => {
-           console.log(r)
-           if (r.statusText == 'Created'){
+           if (r.status == 'ok'){
            	 this.$router.push({name: 'login'})
            }
         }, r => {
@@ -132,6 +134,3 @@ export default {
   }
 };
 </script>
-
-<style lang="css" scoped>
-</style>

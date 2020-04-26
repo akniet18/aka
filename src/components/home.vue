@@ -34,6 +34,7 @@ article{
 	width: 81%;
 	margin: auto;
 	/*padding: 10px;*/
+	min-height: 80vh;
 	display: grid;
 	grid-template-columns: 2.3fr 1fr;
 	align-items: flex-start;

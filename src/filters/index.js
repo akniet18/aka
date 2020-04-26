@@ -1,7 +1,7 @@
 import moment from 'moment'
 import Vue from 'vue'
 
-
+/* eslint-disable */
 const filters = {
     capitalize: function (value) {
         console.log('filter', value);
@@ -12,7 +12,7 @@ const filters = {
     },
     dataform(value){
   		if (value) {
-  			return moment(String(value)).format('MM.DD.YY')
+  			return moment(String(value)).format('DD.MM.YY')
   		}
   	},
 };

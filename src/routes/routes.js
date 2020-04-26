@@ -1,5 +1,7 @@
 import VueRouter from 'vue-router'
 import HomeApp from '.././components/home'
+import Articles from '.././components/article/articles'
+import Login from '.././components/auth/login'
 import NProgress from 'nprogress'
 import Vue from 'vue'
 import lazyLoading from './lazyLoading.js'
@@ -32,7 +34,7 @@ const routes = [
       {
         path: '', 
         name: 'home',
-        component: lazyLoading('article/articles')
+        component: Articles
       },
       {
         path: '/tag/:tags', 
@@ -61,7 +63,7 @@ const routes = [
   {
     path: '/login', 
     name: 'login',
-    component: lazyLoading('auth/login')
+    component: Login
   },
   {
     path: '/reg', 

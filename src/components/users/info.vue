@@ -88,7 +88,7 @@
 
 <script>
 import moment from 'moment'
-
+/* eslint-disable */
 export default {
   data() {
     return {

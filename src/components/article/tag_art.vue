@@ -6,8 +6,8 @@
 					<div class="date">{{ d.date | dataform }}</div>
 					<router-link class="title" :to="{name: 'article', params: { id: d.id }}" tag="div">{{ d.title }}</router-link>
 					<div class="tags">
-						<span v-for="tag, i in d.tags.split(' ')" v-bind:key="i">
-							<router-link class="title" :to="{name: 'tag', params: {tags: tag}}" tag="a">{{tag}} </router-link>
+						<span v-for="tagi, i in d.tags.split(' ')" v-bind:key="i">
+							<router-link class="title" :to="{name: 'tag', params: {tags: tag}}"  tag="a"><span @click="changetag(tagi)">{{tagi}} </span></router-link>
 						</span>
 					</div>
 					<div class="content" v-html="d.text.slice(0, 150)">
@@ -80,6 +80,11 @@ export default {
       date: '2019-11-23 11:19:00'
     };
   },
+  watch: {
+	  tag: function(oldTag, newTag){
+		  this.getTags()
+	  }
+  },
   created(){
 	window.addEventListener('resize', this.resize)
   },
@@ -88,21 +93,37 @@ export default {
   },
   beforeCreate() {
   	let data = {
-  		'tag': this.$route.params.tags
-  	}
-  	console.log(data)
-  	this.$http.post('tags/', data)
-  		.then(r => {
-  			return r.json()
-  		})
-  		.then(r => {
-  			this.data = r.articles
-  			console.log(r)
-  		}, r => {
-  			console.log(r)
-  		})
+			'tag': this.$route.params.tags
+		}
+		console.log(data)
+		this.$http.post('tags/', data)
+			.then(r => {
+				return r.json()
+			})
+			.then(r => {
+				this.data = r.articles
+				console.log(r)
+			}, r => {
+				console.log(r)
+			})
   },
   methods: {
+	getTags() {
+		let data = {
+			'tag': this.tag
+		}
+		console.log(data)
+		this.$http.post('tags/', data)
+			.then(r => {
+				return r.json()
+			})
+			.then(r => {
+				this.data = r.articles
+				console.log(r)
+			}, r => {
+				console.log(r)
+			})
+	},
   	handleCurrentChange(val) {
       this.currentPage = val;
       console.log(`current page: ${val}`);
@@ -147,8 +168,13 @@ export default {
     	  }, r => {
     	  	console.log(r)
     	  })
-	}    
+	},
+	changetag(tagi){
+		console.log(tagi)
+	  this.tag = tagi
+  }
   },
+  
 };
 </script>
 

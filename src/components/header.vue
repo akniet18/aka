@@ -9,10 +9,14 @@
 
 				<div class="title">
 					<router-link tag="div" class="logo" :to="{name: 'home'}"><span ref="title">AKA</span></router-link>
-					<div class="divH" ref="divH">
+					<!-- <div class="divH" ref="divH">
 						<div>News</div>
-						<div>Articles</div>
+						<div>Blogs</div>
 					</div>
+					<div class="divH">
+						<div>Questions</div>
+						<div> </div>
+					</div> -->
 				</div>
 				
 				<div class="r_col">
@@ -117,12 +121,12 @@ export default {
   methods: {
     onSCroll () {
        if (window.scrollY > 10){
-          this.$refs.divH.classList.add('flex');
+        //   this.$refs.divH.classList.add('flex');
           this.$refs.title.classList.add('logoLFs');
           this.$refs.head.classList.add("fix");
        }
        else{
-          this.$refs.divH.classList.remove('flex');
+        //   this.$refs.divH.classList.remove('flex');
           this.$refs.title.classList.remove('logoLFs');
           this.$refs.head.classList.remove("fix");
        }

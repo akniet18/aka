@@ -1,3 +1,4 @@
+
 <template>
 	<div class="wrapper">
 		<div class="menu">
@@ -58,6 +59,7 @@ export default {
 
 <style lang="css" scoped>
 	.wrapper{
+		width: 100%;
 		margin-top: 10px;
 		height: 100%
 	}

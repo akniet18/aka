@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
 	<div class="wrapper">
 		<HeaderApp></HeaderApp>
@@ -14,6 +15,11 @@
 			  	<ArtApp></ArtApp>
 			  </el-tab-pane>
 			</el-tabs>
+			<!-- <el-tabs >
+				<el-tab-pane label="User"><InfoApp></InfoApp></el-tab-pane>
+				<el-tab-pane label="Favourites"><FavApp></FavApp></el-tab-pane>
+				<el-tab-pane label="Articles"><ArtApp></ArtApp></el-tab-pane>
+			</el-tabs> -->
 		</div>
 		
 		<FooterApp></FooterApp>
@@ -49,10 +55,10 @@ export default {
 .container{
 	width: 82%;
 	margin: auto;
-	margin-bottom: 10px;
+	margin-bottom: 50px;
 }
 .sect{
-	min-height: 50vh;
+	min-height: 75vh;
 	height: 100%;
 }
 </style>
