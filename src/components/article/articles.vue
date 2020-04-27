@@ -2,8 +2,8 @@
 	<div class="wrapper">
 		<div class="container">
 			<el-radio-group v-model="articleType" style="margin-bottom: 30px;">
+				<el-radio-button label="blog">Blogs</el-radio-button>
 				<el-radio-button label="news">News</el-radio-button>
-				<el-radio-button label="blogs">Blogs</el-radio-button>
 				<el-radio-button label="questions">Questions</el-radio-button>
 			</el-radio-group>
 			<el-tabs>
@@ -93,8 +93,13 @@ export default {
       posts: [],
       date: '2019-11-23 11:19:00',
 	  sData: [],
-	  articleType: "news"
+	  articleType: "blog"
     };
+  },
+  watch: {
+	  articleType: function(oldType, newType){
+		  this.getArticles()
+	  }
   },
   created(){
 	window.addEventListener('resize', this.resize)
@@ -102,32 +107,34 @@ export default {
   destroyed () {
     window.removeEventListener('resize', this.resize);
   },
-  beforeCreate() {
-  	this.$http.get('articles/')
-  		.then(r => {
-  			return r.json()
-  		})
-  		.then(r => {
-  			this.posts = r
-  			this.sData = [...r]
-  			for (let i in this.sData){
-  				let a = this.sData[i]['favorite'].length + this.sData[i]['comment'].length
-  				this.sData[i]['srt'] = a
-  			}
-  			this.sData.sort(function(a, b){
-				return b.srt - a.srt
-			})
-  			console.log(r)
-  		}, r => {
-  			console.log(r)
-  		})
-  },
   mounted() {
   	this.sData.sort(function(a, b){
 		return b.srt - a.srt
 	})
+	this.getArticles()
   },
   methods: {
+	getArticles(){
+
+		this.$http.get('get/'+this.articleType)
+			.then(r => {
+				return r.json()
+			})
+			.then(r => {
+				this.posts = r
+				this.sData = [...r]
+				for (let i in this.sData){
+					let a = this.sData[i]['favorite'].length + this.sData[i]['comment'].length
+					this.sData[i]['srt'] = a
+				}
+				this.sData.sort(function(a, b){
+					return b.srt - a.srt
+				})
+				console.log(r)
+			}, r => {
+				console.log(r)
+			})
+	},
   	handleCurrentChange(val) {
       this.currentPage = val;
       console.log(`current page: ${val}`);

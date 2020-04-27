@@ -27,7 +27,6 @@
           <el-radio-group v-model="radio">
             <el-radio :label="1">Blog</el-radio>
             <el-radio :label="2">Questions</el-radio>
-            <el-radio :label="3">News</el-radio>
           </el-radio-group>
         </el-form-item>
 
