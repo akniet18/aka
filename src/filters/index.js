@@ -12,7 +12,7 @@ const filters = {
     },
     dataform(value){
   		if (value) {
-  			return moment(String(value)).format('DD.MM.YY')
+  			return moment(String(value)).format('DD.MM.YY HH:MM')
   		}
   	},
 };

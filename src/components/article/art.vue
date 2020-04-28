@@ -50,7 +50,7 @@
 				</div>
 			</div>
 
-			<div class="commentD" v-for="c in comments" v-bind:key="c.id">
+			<!-- <div class="commentD" v-for="c in comments" v-bind:key="c.id">
 				<div class="commentInfo">
 					<div class="c_auth">{{c.author.username}}</div>
 					<div class="c_date">{{c.date | dataform}}</div>
@@ -58,16 +58,23 @@
 				<div class="com_text">
 					{{c.text}}
 				</div>
-			</div>
+			</div> -->
+		</div>
+
+		<div>
+			<Tree v-for="(c,i) in comments.children" :key="i" :data="c"></Tree>
 		</div>
 	</div>
 </template>
 
 
 <script>
+import Tree from '../tree'
 export default {
   name: 'art',
-
+  components: {
+	  Tree
+  },
   data() {
     return {
       islike: false,
@@ -83,7 +90,7 @@ export default {
 		],
 	  },
 	  data: [],
-	  comments: []
+	  comments: {'children': []}
     };
   },
   created() {
@@ -106,7 +113,7 @@ export default {
 	  	  	return r.json()
 	  	  })
 	  	  .then(r=>{
-	  	  	this.comments = r
+	  	  	this.comments.children = JSON.parse(JSON.stringify(r))
 	  	  	console.log(r)
 	  	  }, r => {
 	  	  	console.log(r)
@@ -185,143 +192,135 @@ export default {
 
 
 <style lang="css" scoped>
-	.wrapper{
-		margin: 10px 0;
-		width: 100%;
-	}
+.wrapper{
+	margin: 10px 0;
+	width: 100%;
+}
+.art{
+	padding: 10px;
+	box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
+	background: #fff;
+	/*width: 100%;*/
+}
+.title{
+	font-size: 1.7em;
+	padding:20px 0; 
+	font-weight: bolder;
+}
+.date{
+	font-size: 0.8em;
+}
+.tags{
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+}
+.tag{
+	color: #4E6680
+}
+.t_title{
+	font-weight: bolder;
+	margin-right: 10px;
+}
+.info{
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+}
+.info div{
+	margin-right: 10px;
+}
+.comD{
+	height: 100%;
+	margin-top: 10px;
+	background: #fff;
+	height: 100%;
+	box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
+	padding-bottom: 20px;
+}
+.comD_title{
+	font-size: 1.8em;
+	padding: 10px;
+	border-bottom: 1px solid #000;
+}
+.comD_title span{
+	color: #4E6680 
+}
+.commentD{
+	padding: 20px 20px 0 20px;
+}
+.ic{
+	font-size: 1.1em;
+}
+.wd{
+	width: 96%;
+	margin: 10px auto;
+}
+.center_div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #F6F6F6;
+	padding: 20px 0;
+}
+.center_div a{
+	text-decoration: none;
+	color: #409EFF
+}
+.center_div a:hover{
+	text-decoration: underline;
+}
+.tags a{
+	color: #4E6680;
+	font-size: 0.8em;
+	padding: 0 0 3px 0;
+	text-decoration: none;
+}
+.tags a:hover{
+	text-decoration: underline;
+}
+.text{
+	width: 100%;
+	height: auto;
+}
+.text >>> *{
+	width: 100%;
+	height: auto;		
+}
+/*.text{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+.art p, .art img, .text div{
+	width: 95%;
+	margin: auto;
+}*/
+@media (max-width: 480px){
 	.art{
-		padding: 10px;
-		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
-		background: #fff;
-		/*width: 100%;*/
+		padding: 20px 15px;
 	}
 	.title{
-		font-size: 1.7em;
-		padding:20px 0; 
-		font-weight: bolder;
-	}
-	.date{
-		font-size: 0.8em;
-	}
-	.tags{
-		margin-top: 20px;
-		display: flex;
-		align-items: center;
-	}
-	.tag{
-		color: #4E6680
-	}
-	.t_title{
-		font-weight: bolder;
-		margin-right: 10px;
+		font-size: 1.2em
 	}
 	.info{
-		margin-top: 20px;
-		display: flex;
-		align-items: center;
-	}
-	.info div{
-		margin-right: 10px;
+		font-size: 0.9em
 	}
 	.comD{
-		height: 100%;
-		margin-top: 10px;
-		background: #fff;
-		height: 100%;
-		box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
-		padding-bottom: 20px;
+		padding: 15px 10px;
 	}
 	.comD_title{
-		font-size: 1.8em;
-		padding: 10px;
-		border-bottom: 1px solid #000;
-	}
-	.comD_title span{
-		color: #4E6680 
+		font-size: 1.3em
 	}
 	.commentD{
-		padding: 20px 20px 0 20px;
-	}
-	.commentInfo{
-		display: flex;
-		align-items: center;
-	}
-	.c_auth{
-		font-weight: bolder;
-		margin-right: 10px;
-	}
-	.ic{
-		font-size: 1.1em;
+		padding: 7px;
 	}
 	.wd{
-		width: 96%;
-		margin: 10px auto;
+		width: 98%;
 	}
-	.center_div {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background: #F6F6F6;
-		padding: 20px 0;
+	.center_div{
+		text-align: center;
 	}
-	.center_div a{
-		text-decoration: none;
-		color: #409EFF
-	}
-	.center_div a:hover{
-		text-decoration: underline;
-	}
-	.tags a{
-		color: #4E6680;
-		font-size: 0.8em;
-		padding: 0 0 3px 0;
-		text-decoration: none;
-	}
-	.tags a:hover{
-		text-decoration: underline;
-	}
-	.text{
-		width: 100%;
-		height: auto;
-	}
-	.text >>> *{
-		width: 100%;
-		height: auto;		
-	}
-	/*.text{
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-	}
-	.art p, .art img, .text div{
-		width: 95%;
-		margin: auto;
-	}*/
-	@media (max-width: 480px){
-		.art{
-			padding: 20px 15px;
-		}
-		.title{
-			font-size: 1.2em
-		}
-		.info{
-			font-size: 0.9em
-		}
-		.comD{
-			padding: 15px 10px;
-		}
-		.comD_title{
-			font-size: 1.3em
-		}
-		.commentD{
-			padding: 7px;
-		}
-		.wd{
-			width: 98%;
-		}
-		.center_div{
-			text-align: center;
-		}
-	}
+}
 </style>
